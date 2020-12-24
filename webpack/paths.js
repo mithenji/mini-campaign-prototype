@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const configResource = require('../package.json');
-const utils = require('./log.js');
+const chalk = require("chalk");
 
 function genWebpackEntries(appDirectory, entries) {
     return Object.keys(entries).reduce((acc, appType) => {
@@ -24,18 +24,23 @@ const appEntries = genWebpackEntries(appDirectory, configResource.entries);
 const appEntriesName = Object.keys(appEntries);
 //the public path
 const appPublicPath = "./";
-console.log('workingDirectory =>', workingDirectory, 'appEntries=> ', appEntries, 'appBuild =>', appBuild);
+
+console.table({
+    'workingDirectory':workingDirectory,
+    'appBuild': appBuild,
+    ...appEntries
+});
 
 //the images/ libraries
-const legacyAssets = [
-    {
-        from: path.resolve(workingDirectory, configResource.paths.library.source),
-        to: path.resolve(appBuild, configResource.paths.library.target)
-    }
-];
+// const legacyAssets = [
+//     {
+//         from: path.resolve(workingDirectory, configResource.paths.library.source),
+//         to: path.resolve(appBuild, configResource.paths.library.target)
+//     }
+// ];
 
 //CopyPlugin options
-function appAssetsToCopy() {
+// function appAssetsToCopy() {
     // const patterns = utils.flatten(Object.values(appEntries)).map(item => {
     //     for (let name of appEntriesName) {
     //         if(item.indexOf(name) >= 0) {
@@ -85,7 +90,7 @@ function appAssetsToCopy() {
     //     }
     // });
     // return patterns;
-}
+// }
 
 // file-loader => options[name]
 
@@ -105,7 +110,7 @@ module.exports = {
     appBuild,
     appPublicPath,
     workingDirectory,
-    legacyAssets,
+    // legacyAssets,
     appDirectory,
     // appAssetsToCopy: appAssetsToCopy(),
     appAssetsName: appAssetsName,

@@ -21,7 +21,7 @@ module.exports = (api) => {
                 minPixelValue: 1,
                 mediaQuery: true,
                 replace: true,
-                exclude: [],
+                exclude: [/x5-video/],
                 include: [],
                 landscape: false,
                 landscapeUnit: 'vw',

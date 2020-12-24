@@ -2,15 +2,15 @@ const chalk = require('chalk');
 const webpack = require('webpack');
 const Config = require('./webpack.config');
 
-process.env.NODE_ENV = 'development';
-process.env.BABEL_ENV = 'development';
-process.on('unhandledRejection', err => {
-    throw err;
-});
+// process.env.NODE_ENV = 'development';
+// process.env.BABEL_ENV = 'development';
+// process.on('unhandledRejection', err => {
+//     throw err;
+// });
 
 console.log(chalk.greenBright('Starting webpack watcher... '));
 
-webpack(Config('development'), (err, stats) => {
+webpack(Config, (err, stats) => {
     
     if (err) {
         console.error(chalk.magentaBright(err));

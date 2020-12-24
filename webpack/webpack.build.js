@@ -64,7 +64,12 @@ function factory(vendor) {
                 {
                     test: /\.less$/,
                     use: [
-                        MiniCssExtractPlugin.loader,
+                        {
+                            loader: MiniCssExtractPlugin.loader,
+                            options: {
+                                publicPath: '../',
+                            },
+                        },
                         "css-loader", // translates CSS into CommonJS
                         "less-loader" // compiles Less to CSS
                     ]
@@ -116,17 +121,14 @@ function factory(vendor) {
         stats: "minimal",
         plugins: [
             new MiniCssExtractPlugin({
-                filename: `css/${vendor}.css`
+                filename: `css/${vendor}.css`,
             }),
             new HtmlWebpackPlugin({
                 filename: `${vendor}.html`,
-                template: `apps/${vendor}/index.html`,
+                template: `src/${vendor}/index.html`,
                 inject: true,
                 minify: false
             }),
-            // new CopyPlugin({
-            //     patterns: entries.appAssetsToCopy
-            // })
         ]
     };
 

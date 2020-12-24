@@ -1,14 +1,23 @@
-const path = require('path');
-const entries = require('./paths');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
+const path = require("path");
+const entries = require("./paths");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
+
+const configArray = [];
+const devServer = {
+    hot: true,
+    inline: true,
+    host: "10.9.0.37",
+    publicPath: '/',
+    contentBase: path.resolve(__dirname, "../static"),
+    port: 9000
+};
 
 function factory(vendor) {
-    console.log(path.join(__dirname, 'dist'));
     return {
-        mode: 'development',
-        devtool: 'cheap-source-map',
+        mode: "development",
+        devtool: "cheap-source-map",
         entry: entries.appEntries[vendor],
         resolve: {
             extensions: entries.extensions
@@ -23,11 +32,11 @@ function factory(vendor) {
                 {
                     test: /\.js/,
                     exclude: /node_modules/,
-                    loader: require.resolve('babel-loader')
+                    loader: require.resolve("babel-loader")
                 },
                 {
                     test: /\.ts$/,
-                    use: 'ts-loader',
+                    use: "ts-loader",
                     exclude: /node_modules/
                 },
                 //css-loader
@@ -37,23 +46,28 @@ function factory(vendor) {
                         {
                             loader: MiniCssExtractPlugin.loader,
                             options: {
-                                publicPath: '../',
+                                publicPath: "../",
                             },
                         },
-                        'css-loader',
+                        "css-loader",
                     ]
                 },
                 //sass-loader
                 {
                     test: /\.(scss|sass)$/,
                     use: [
-                        MiniCssExtractPlugin.loader,
-                        'css-loader',
-                        'postcss-loader',
                         {
-                            loader: 'sass-loader',
+                            loader: MiniCssExtractPlugin.loader,
                             options: {
-                                implementation: require('sass'),
+                                publicPath: "../",
+                            },
+                        },
+                        "css-loader",
+                        "postcss-loader",
+                        {
+                            loader: "sass-loader",
+                            options: {
+                                implementation: require("sass"),
                                 sourceMap: true
                             }
                         }
@@ -63,27 +77,29 @@ function factory(vendor) {
                 {
                     test: /\.less$/,
                     use: [
-                        MiniCssExtractPlugin.loader,
-                        'css-loader', // translates CSS into CommonJS
-                        'less-loader' // compiles Less to CSS
+                        {
+                            loader: MiniCssExtractPlugin.loader,
+                            options: {
+                                publicPath: "../",
+                            },
+                        },
+                        "css-loader", // translates CSS into CommonJS
+                        "less-loader" // compiles Less to CSS
                     ]
                 },
                 {
                     test: /\.html$/i,
-                    loader: 'html-loader',
-                    options: {
-                        attributes: true,
-                    }
+                    loader: "html-loader",
                 },
                 {
-                    test: /\.(png|jpg|gif)$/,
+                    test: /\.(png|jpg|gif|mp3|mp4)(\?.*)?$/,
                     use: [
                         {
-                            loader: 'file-loader',
+                            loader: "file-loader",
                             options: {
-                                outputPath: 'images/',
+                                outputPath: "images/",
                                 useRelativePath: true,
-                                name: `/[name].[ext]`
+                                name: `[name].[ext]`
                             }
                         }
                     ]
@@ -91,47 +107,32 @@ function factory(vendor) {
                 {
                     test: /\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/,
                     exclude: /node_modules/,
-                    loader: 'file-loader',
+                    loader: "file-loader",
                     options: {
-                        outputPath: 'iconfont/',
+                        outputPath: "iconfont/",
                         useRelativePath: true,
-                        name: '[name].[ext]'
+                        name: "[name].[ext]"
                     }
                 }
             ]
         },
-        devServer: {
-            hot: true,
-            inline: true,
-            publicPath:  '/',
-            contentBase: path.resolve(__dirname, './static'),
-            compress: true,
-            port: 9000
-        },
-        stats: {
-            all: false,
-            assets: true,
-            cachedAssets: true,
-            errors: true,
-            errorDetails: true,
-            hash: true,
-            performance: true,
-            publicPath: true,
-            timings: true
-        },
         plugins: [
             new MiniCssExtractPlugin({
-                filename: '[name].css'
+                filename: "[name].css"
             }),
             new HtmlWebpackPlugin({
                 filename: `${vendor}.html`,
-                template: `apps/${vendor}/index.html`,
+                template: `src/${vendor}/index.html`,
                 inject: true,
                 minify: false
             }),
         ]
     };
-
 }
 
-module.exports = Object.keys(entries.appEntries).map(vendor => factory(vendor));
+Object.keys(entries.appEntries).map((vendor, index) => {
+    if(index === 0) { return configArray.push(Object.assign({}, factory(vendor), {devServer: devServer}));}
+    return configArray.push(factory(vendor));
+});
+
+module.exports = configArray;
