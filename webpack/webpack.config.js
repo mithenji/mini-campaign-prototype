@@ -2,14 +2,14 @@ const path = require("path");
 const entries = require("./paths");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
+const webpack = require("webpack");
 
 const configArray = [];
 const devServer = {
     hot: true,
     inline: true,
     host: "10.9.0.37",
-    publicPath: '/',
+    publicPath: "/",
     contentBase: path.resolve(__dirname, "../static"),
     port: 9000
 };
@@ -46,10 +46,10 @@ function factory(vendor) {
                         {
                             loader: MiniCssExtractPlugin.loader,
                             options: {
-                                publicPath: "../",
-                            },
+                                publicPath: "../"
+                            }
                         },
-                        "css-loader",
+                        "css-loader"
                     ]
                 },
                 //sass-loader
@@ -59,8 +59,8 @@ function factory(vendor) {
                         {
                             loader: MiniCssExtractPlugin.loader,
                             options: {
-                                publicPath: "../",
-                            },
+                                publicPath: "../"
+                            }
                         },
                         "css-loader",
                         "postcss-loader",
@@ -80,8 +80,8 @@ function factory(vendor) {
                         {
                             loader: MiniCssExtractPlugin.loader,
                             options: {
-                                publicPath: "../",
-                            },
+                                publicPath: "../"
+                            }
                         },
                         "css-loader", // translates CSS into CommonJS
                         "less-loader" // compiles Less to CSS
@@ -89,7 +89,7 @@ function factory(vendor) {
                 },
                 {
                     test: /\.html$/i,
-                    loader: "html-loader",
+                    loader: "html-loader"
                 },
                 {
                     test: /\.(png|jpg|gif|mp3|mp4)(\?.*)?$/,
@@ -126,12 +126,20 @@ function factory(vendor) {
                 inject: true,
                 minify: false
             }),
+            new webpack.ProvidePlugin({
+                $: "jquery",
+                jQuery: "jquery",
+                "window.jQuery": "jquery",
+                Popper: ["popper.js", "default"]
+            })
         ]
     };
 }
 
 Object.keys(entries.appEntries).map((vendor, index) => {
-    if(index === 0) { return configArray.push(Object.assign({}, factory(vendor), {devServer: devServer}));}
+    if(index === 0) {
+        return configArray.push(Object.assign({}, factory(vendor), {devServer: devServer}));
+    }
     return configArray.push(factory(vendor));
 });
 

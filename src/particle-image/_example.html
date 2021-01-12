@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Lara - Mirror</title>
+    <meta charset="utf-8">
+    <style>
+        body {
+            color: #000000;
+            font-family: Arial;
+            font-size: 40px;
+            font-weight: bold;
+            text-align: center;
+            background-color: #000000;
+            margin: 0px;
+            overflow: hidden;
+        }
+        #progress {
+            color: red;
+            top: 320px;
+            width: 100%;
+            font-variant: small-caps;
+            position: absolute;
+            z-index: 100;
+            text-align: center;
+            text-shadow: #000000 0px 0px 10px;
+        }
+        #progressbar {
+            text-align: center;
+            background: #808080;
+            width: 250px;
+            height: 10px;
+        }
+        #bar {
+            background: #d00000;
+            width: 1px;
+            height: 10px;
+        }
+        .shadow {
+            -webkit-box-shadow: 0px 0px 5px #000000;
+            box-shadow: 0px 0px 5px #000000;
+        }
+        #infos {
+            position: absolute;
+            left: 16px;
+            top: 16px;
+        }
+    </style>
+</head>
+<body>
+<script src="JS/three.min.js"></script>
+<script src="JS/sea3d.min.js"></script>
+<script src="JS/Mirror.js"></script>
+<div id="progress"><div id="progressbar" class="shadow"><div id="bar" class="shadow"></div></div></div>
+<div id="container" style="background:#000000; margin:0 auto;"></div>
+<div id="infos">PHONG</div>
+<script>
+    var winW = window.innerWidth;
+    var winH = window.innerHeight;
+    var container = document.getElementById( 'container' );
+    var camera, scene, renderer;
+    var clock = new THREE.Clock();
+    var mouseX = 0, mouseY = 0;
+    var windowHalfX = winW / 2;
+    var windowHalfY = winH / 2;
+    var progbar = document.getElementById( 'progress' );
+    progbar.style.left = (windowHalfX - 125)+'px';
+    progbar.style.top = (windowHalfY - 5)+'px';
+    var infos = document.getElementById( 'infos' );
+    var lara = new THREE.Mesh();
+    camera = new THREE.PerspectiveCamera( 45, winW / winH, 0.1, 100 );
+    camera.position.set( 2.0, -2.0, 2.0 );
+    camera.up.set( 0, 0, 1 );
+    scene = new THREE.Scene();
+    var ambient = new THREE.AmbientLight( 0x404040 );
+    scene.add( ambient );
+    var spotLight = new THREE.SpotLight( 0xffffff, 1.2 );
+    spotLight.position.set( 10, -10, 1 );
+    scene.add( spotLight );
+    var mirror = new THREE.Mirror( 4, 4, {
+        clipBias: 0.003,
+        textureWidth: winW * window.devicePixelRatio,
+        textureHeight: winH * window.devicePixelRatio,
+        color: 0x707070
+    } );
+    mirror.position.z = -0.4;
+    scene.add( mirror );
+    camera.lookAt( new THREE.Vector3( 0, 0, 0.1 ) );
+    renderer = new THREE.WebGLRenderer( { antialias: true } );
+    renderer.setClearColor( 0xf0e0c0 );
+    renderer.setPixelRatio( window.devicePixelRatio );
+    renderer.setSize( winW, winH );
+    renderer.sortObjects = false;
+    container.appendChild( renderer.domElement );
+    var shd = 1;
+    var mat1;
+    var mat2;
+    var loader = new THREE.SEA3D();
+    loader.onDownloadProgress = function( e ) {
+        var bar = Math.floor( 250 * e.loaded/e.total );
+        var loadbar = document.getElementById( 'bar' );
+        loadbar.style.width = bar+"px";
+    }
+    loader.onComplete = function( e ) {
+        lara = loader.meshes[0];
+        mat1 = lara.material;
+        // *******
+        mat2 = new THREE.MeshPhysicalMaterial({
+            metalness: 0.5,
+            roughness: 1.0,
+            map: mat1.map,
+            metalnessMap: mat1.specularMap,
+            roughnessMap: mat1.specularMap,
+            normalMap: mat1.normalMap,
+            normalScale: new THREE.Vector2(1,-1),
+            skinning: true
+        });
+        // *******
+        lara.rotation.set( Math.PI/2, 0, 0 );
+        lara.position.set( 0, 0, 0.6 );
+        lara.scale.multiplyScalar( 0.024 );
+        lara.animations[0].timeScale = 0.8;
+        lara.play('root', 0.5);
+        scene.add( lara );
+
+        progbar.style.display = "none";
+        document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+        document.addEventListener( 'mousedown', onDocumentMouseDown, false );
+        window.addEventListener( 'resize', onWindowResize, false );
+        animate();
+    }
+    loader.load( 'girls/Lara.sea' );
+    function onWindowResize() {
+        winW = window.innerWidth;
+        winH = window.innerHeight;
+        windowHalfX = winW / 2;
+        windowHalfY = winH / 2;
+        camera.aspect = winW / winH;
+        camera.updateProjectionMatrix();
+        renderer.setSize( winW, winH );
+    }
+    function onDocumentMouseMove( event ) {
+        mouseX = ( event.clientX - windowHalfX ) / 2;
+        mouseY = ( event.clientY - windowHalfY ) / 2;
+    }
+    function onDocumentMouseDown( event ) {
+        if (shd == 1) {
+            lara.material = mat2;
+            shd = 2;
+            infos.innerHTML = "PSYSICAL (PBR)";
+        } else {
+            lara.material = mat1;
+            shd = 1;
+            infos.innerHTML = "PHONG";
+        }
+    }
+    function animate() {
+        requestAnimationFrame( animate);
+        var delta = clock.getDelta();
+        THREE.SEA3D.AnimationHandler.update( delta );
+        lara.rotation.y += ( mouseX - scene.rotation.y ) * .0001;
+        renderer.render( scene, camera );
+    }
+</script>
+</body>
+</html>
+

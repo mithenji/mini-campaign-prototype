@@ -1,8 +1,7 @@
 const entries = require("./paths");
-const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const webpack = require('webpack');
 
 
 function factory(vendor) {
@@ -129,6 +128,12 @@ function factory(vendor) {
                 inject: true,
                 minify: false
             }),
+            new webpack.ProvidePlugin({
+                $: 'jquery',
+                jQuery: 'jquery',
+                'window.jQuery': 'jquery',
+                Popper: ['popper.js', 'default']
+            })
         ]
     };
 
