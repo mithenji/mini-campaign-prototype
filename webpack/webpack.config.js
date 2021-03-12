@@ -1,6 +1,8 @@
 const path = require("path");
 const entries = require("./paths");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+// const HtmlWebpackSkipAssetsPlugin = require("html-webpack-skip-assets-plugin").HtmlWebpackSkipAssetsPlugin;
+// const HtmlWebpackExcludeAssetsPlugin = require('html-webpack-exclude-assets-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const webpack = require("webpack");
 
@@ -17,7 +19,7 @@ const devServer = {
 function factory(vendor) {
     return {
         mode: "development",
-        devtool: "cheap-source-map",
+        devtool: "eval-source-map",
         entry: entries.appEntries[vendor],
         resolve: {
             extensions: entries.extensions
@@ -31,8 +33,24 @@ function factory(vendor) {
             rules: [
                 {
                     test: /\.js/,
-                    exclude: /node_modules/,
-                    loader: require.resolve("babel-loader")
+                    loader: "babel-loader",
+                    options: {
+                        "exclude": [
+                            // \\ for Windows, \/ for Mac OS and Linux
+                            /node_modules/
+                        ],
+                        "presets": [
+                            "@babel/preset-env"
+                        ],
+                        "plugins": [
+                            [
+                                "@babel/plugin-proposal-class-properties",
+                                {
+                                    "loose": true
+                                }
+                            ]
+                        ]
+                    }
                 },
                 {
                     test: /\.ts$/,
@@ -87,10 +105,10 @@ function factory(vendor) {
                         "less-loader" // compiles Less to CSS
                     ]
                 },
-                {
-                    test: /\.html$/i,
-                    loader: "html-loader"
-                },
+                // {
+                //     test: /\.html$/i,
+                //     loader: "html-loader"
+                // },
                 {
                     test: /\.(png|jpg|gif|mp3|mp4)(\?.*)?$/,
                     use: [
@@ -116,6 +134,11 @@ function factory(vendor) {
                 }
             ]
         },
+        performance: {
+            hints: false,
+            maxEntrypointSize: 5120000,
+            maxAssetSize: 5120000
+        },
         plugins: [
             new MiniCssExtractPlugin({
                 filename: "[name].css"
@@ -123,8 +146,8 @@ function factory(vendor) {
             new HtmlWebpackPlugin({
                 filename: `${vendor}.html`,
                 template: `src/${vendor}/index.html`,
-                inject: true,
-                minify: false
+                minify: false,
+                inject: true
             }),
             new webpack.ProvidePlugin({
                 $: "jquery",
