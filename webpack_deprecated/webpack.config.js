@@ -6,13 +6,15 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const webpack = require("webpack");
 
+console.log('__dirname', __dirname);
+
 const configArray = [];
 const devServer = {
     hot: true,
     inline: true,
-    host: "10.9.0.37",
-    publicPath: "/",
-    contentBase: path.resolve(__dirname, "../static"),
+    host: "192.168.0.105",
+    publicPath: "./",
+    // contentBase: path.join(__dirname, "./static"),
     port: 9000
 };
 
