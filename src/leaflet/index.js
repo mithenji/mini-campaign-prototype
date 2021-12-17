@@ -1,8 +1,8 @@
-// import L from 'leaflet'
+import 'leaflet/dist/leaflet.css'
 import '../../static/assets/reset.scss';
 import './styles/main.scss';
 
-let L = require('leaflet');
+import L from 'leaflet';
 L.RasterCoords = require('leaflet-rastercoords');
 
 let img = [
@@ -17,8 +17,8 @@ let map = L.map('map', {
     maxZoom: maxZoom,
     doubleClickZoom: false,
     preferCanvas: true,
-    maxBoundsViscosity: 1.0,
-    renderer: L.canvas({ padding: 0.5 })
+    maxBoundsViscosity: 1,
+    renderer: L.canvas({padding: 0.5})
 });
 
 // assign map and image dimensions
@@ -27,7 +27,7 @@ let rc = new L.RasterCoords(map, img);
 map.setMaxZoom(rc.zoomLevel());
 // all coordinates need to be unprojected using the `unproject` method
 // set the view in the lower right edge of the image
-map.setView(rc.unproject([img[0]/2, img[1]/2]), 1);
+map.setView(rc.unproject([img[0] / 2, img[1] / 2]), 1);
 
 // set markers on click events in the map
 // map.on('click', function (event) {
@@ -41,6 +41,8 @@ map.setView(rc.unproject([img[0]/2, img[1]/2]), 1);
 
 // the tile layer containing the image generated with `gdal2tiles --leaflet -p raster -w none <img> tiles`
 L.tileLayer('/assets/images/tiles/{z}/{x}/{y}.png', {
-    minZoom:1,
+    minZoom: 1,
     maxZoom: 6,
+    minNativeZoom: 1,
+    maxNativeZoom: 6
 }).addTo(map);

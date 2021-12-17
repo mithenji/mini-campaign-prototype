@@ -12,33 +12,33 @@ import RectAreaLightUniformsLib from "three/examples/jsm/lights/RectAreaLightUni
 
 export default function Component3d() {
 
-    var component3d;
-    var requestId;
-    var dispose_ = false;
-    var canvas = document.getElementById("webgl_playground");
-    var camera, scene, renderer, composer, bloomPass;
+    let component3d;
+    let requestId;
+    let dispose_ = false;
+    let canvas = document.getElementById("webgl_playground");
+    let camera, scene, renderer, composer, bloomPass;
 
-    var canvasWebgl;
-    var mode = 0;
+    let canvasWebgl;
+    let mode = 0;
 
-    var geometry, mesh;
-    var iconPixotron, iconiJewel, iconPixotronics;
-    var directionX = new THREE.Vector2(1, 0);
-    var directionY = new THREE.Vector2(0, 1);
-    var directionXY = new THREE.Vector2(1, 1);
-    var direction = new THREE.Vector2(1, 1);
-    var textureLoader = new THREE.TextureLoader();
+    let geometry, mesh;
+    let iconPixotron, iconiJewel, iconPixotronics;
+    let directionX = new THREE.Vector2(1, 0);
+    let directionY = new THREE.Vector2(0, 1);
+    let directionXY = new THREE.Vector2(1, 1);
+    let direction = new THREE.Vector2(1, 1);
+    let textureLoader = new THREE.TextureLoader();
     textureLoader.crossOrigin = "";
 
-    var time = {t: 0};
-    var tween1 = new TWEEN.Tween(time).to({t: 1}, 3500);
-    var tween2 = new TWEEN.Tween(time).to({t: 0}, 3500);
-    var tween3 = new TWEEN.Tween(time).to({t: 1}, 3500);
-    var tween4 = new TWEEN.Tween(time).to({t: 0}, 3500);
-    var tween5 = new TWEEN.Tween(time).to({t: 1}, 3500);
-    var tween6 = new TWEEN.Tween(time).to({t: 0}, 3500);
-    var tween7 = new TWEEN.Tween(time).to({t: 1}, 3500);
-    var tween8 = new TWEEN.Tween(time).to({t: 0}, 3500);
+    let time = {t: 0};
+    let tween1 = new TWEEN.Tween(time).to({t: 1}, 3500);
+    let tween2 = new TWEEN.Tween(time).to({t: 0}, 3500);
+    let tween3 = new TWEEN.Tween(time).to({t: 1}, 3500);
+    let tween4 = new TWEEN.Tween(time).to({t: 0}, 3500);
+    let tween5 = new TWEEN.Tween(time).to({t: 1}, 3500);
+    let tween6 = new TWEEN.Tween(time).to({t: 0}, 3500);
+    let tween7 = new TWEEN.Tween(time).to({t: 1}, 3500);
+    let tween8 = new TWEEN.Tween(time).to({t: 0}, 3500);
 
     // tween1.easing(TWEEN.Easing.Exponential.Out);
     tween2.easing(TWEEN.Easing.Bounce.In);
@@ -131,9 +131,10 @@ export default function Component3d() {
         box.getCenter(center);
         bloomPass.strength = 2 * params.t;
         if(mode === 0) {
-            scale(iconPixotron, center, direction, 3 * params.t);
+            // scale(iconPixotron, center, direction, 3 * params.t);
+            scale(iconPixotron, center, direction, 2 * params.t);
         } else {
-            let t = Math.pow(1 - params.t, 1) * 3;
+            let t = Math.pow(1 - params.t, 1) * 2;
             randomOut(t);
         }
     });
@@ -154,14 +155,17 @@ export default function Component3d() {
         mode = mode % 2;
     });
 
-    tween1.chain(tween2);
-    tween2.chain(tween3);
-    tween3.chain(tween4);
-    tween4.chain(tween5);
-    tween5.chain(tween6);
-    tween6.chain(tween7);
+    // tween1.chain(tween2);
+    // tween2.chain(tween3);
+    // tween3.chain(tween4);
+    // tween4.chain(tween5);
+    // tween5.chain(tween6);
+    // tween6.chain(tween7);
+    // tween7.chain(tween8);
+    // tween8.chain(tween1);
+
     tween7.chain(tween8);
-    tween8.chain(tween1);
+    tween8.chain(tween7);
 
     init();
     resizeCanvas();
@@ -208,8 +212,8 @@ export default function Component3d() {
             position.x += 2 * dx;
         }
 
-        icon.positions = positions,
-            icon.uvs = uvs;
+        icon.positions = positions;
+        icon.uvs = uvs;
         icon.width = width;
         icon.height = height;
 
@@ -226,6 +230,7 @@ export default function Component3d() {
             }
         });
 
+        console.log(icon);
         return icon;
     }
 
@@ -422,7 +427,7 @@ export default function Component3d() {
 
         geometry.computeBoundingSphere();
 
-        var material = new THREE.MeshBasicMaterial({
+        let material = new THREE.MeshBasicMaterial({
             side: THREE.DoubleSide,
             transparent: true,
             map: icon.texture
@@ -434,7 +439,8 @@ export default function Component3d() {
         scene.add(mesh);
         geometry.computeBoundingBox();
 
-        tween1.start();
+        // tween1.start();
+        tween7.start();
     }
 
     function initializePixelQuadsFromImage(imageURL) {
@@ -492,7 +498,7 @@ export default function Component3d() {
 
             geometry.computeBoundingSphere();
 
-            var material = new THREE.MeshBasicMaterial({
+            let material = new THREE.MeshBasicMaterial({
                 side: THREE.DoubleSide,
                 transparent: true,
                 map: texture
@@ -515,8 +521,8 @@ export default function Component3d() {
     }
 
     function checkVisible(elm) {
-        var rect = elm.getBoundingClientRect();
-        var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+        let rect = elm.getBoundingClientRect();
+        let viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
         return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
     }
 
@@ -558,14 +564,19 @@ export default function Component3d() {
         }
 
         //./assets/particle-image/CongratulationText.png
-        iconPixotron = createIcon("http://pixotronics.com.s3-website.ap-south-1.amazonaws.com/js/assets/images/pixtron-icon.png", 81, 81);
-        iconiJewel = createIcon("http://pixotronics.com.s3-website.ap-south-1.amazonaws.com/js/assets/images/ijewel-icon.png", 81, 81);
-        iconPixotronics = createIcon("http://pixotronics.com.s3-website.ap-south-1.amazonaws.com/js/assets/images/logo_lowres_light.png", 233, 40, callback);
+        // http://pixotronics.com.s3-website.ap-south-1.amazonaws.com/js/assets/images/logo_lowres_light.png, 233, 40
+        iconPixotron = createIcon("./assets/particle-image/congratulation_text_x.png", 256, 256);
+        iconiJewel = createIcon("./assets/particle-image/congratulation_text_x.png", 256, 256);
+        iconPixotronics = createIcon("./assets/particle-image/congratulation_text.png", 256, 256, callback);
+
+        // iconPixotron = createIcon("http://pixotronics.com.s3-website.ap-south-1.amazonaws.com/js/assets/images/pixtron-icon.png", 81, 81);
+        // iconiJewel = createIcon("http://pixotronics.com.s3-website.ap-south-1.amazonaws.com/js/assets/images/ijewel-icon.png", 81, 81);
+        // iconPixotronics = createIcon("http://pixotronics.com.s3-website.ap-south-1.amazonaws.com/js/assets/images/logo_lowres_light.png", 233, 40, callback);
 
         normalizeIconsData();
         // initializePixelQuadsFromImage("http://pixotronics.com.s3-website.ap-south-1.amazonaws.com/js/assets/images/pixtron-icon.png");
 
-        renderer = new THREE.WebGLRenderer({canvas: canvasWebgl, antialias: true });
+        renderer = new THREE.WebGLRenderer({canvas: canvasWebgl, antialias: true, alpha: true});
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(canvas.width, canvas.height);
         // renderer.outputEncoding = THREE.sRGBEncoding;
@@ -577,7 +588,7 @@ export default function Component3d() {
         let renderScene = new RenderPass(scene, camera);
         renderScene.clear = true;
 
-        bloomPass = new UnrealBloomPass(new THREE.Vector2(canvas.width, canvas.height), 0.0, 0.0, 0.98);//1.0, 9, 0.5, 512);
+        bloomPass = new UnrealBloomPass(new THREE.Vector2(canvas.width, canvas.height), 1.5, 1.0, 0.98);//1.0, 9, 0.5, 512);
         bloomPass.enabled = true;
         bloomPass.threshold = 0.15;
         bloomPass.radius = 1;

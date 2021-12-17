@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CodePen - gl particle sns icons.</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <!--    <link rel="stylesheet" href="./style.css">-->
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<script id="shader-fs" type="x-shader/x-fragment">
+    #ifdef GL_ES
+    precision highp float;
+    #endif
+    void main(void) {
+        gl_FragColor = vec4(0.2, 0.3, 0.4, 1.0);
+    }
+
+</script>
+
+<script id="shader-vs" type="x-shader/x-vertex">
+    attribute vec3 vertexPosition;
+
+    uniform mat4 modelViewMatrix;
+    uniform mat4 perspectiveMatrix;
+
+    void main(void) {
+        gl_Position = perspectiveMatrix * modelViewMatrix * vec4(vertexPosition, 1.0);
+    }
+
+</script>
+
+<canvas id="c"></canvas>
+
+<h1 style="color: #FFFFFF; ">Scroll or Click on the window!</h1>
+<footer id="main-footer">
+    <div><span id="follow-text">Follow me on</span>
+        <div class="footer-wrapper">
+            <div id="footer-container">
+                <div id="box_top"><a href="" id="box_top_text" target='_blank'>sample3</a></div>
+                <div id="box_front"><a href="" id="box_front_text" target='_blank'>sample2</a></div>
+                <div id="box_bottom"><a href="" id="box_bottom_text" target='_blank'>sample1</a></div>
+            </div>
+        </div>
+    </div>
+
+</footer>
+<!-- partial -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/gsap/1.16.1/TweenMax.min.js'></script>
+<!--<script  src="./script.js"></script>-->
+</body>
+</html>

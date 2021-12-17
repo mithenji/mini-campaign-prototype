@@ -2,7 +2,7 @@ import 'swiper/swiper-bundle.min.css';
 import './styles/reset.scss';
 import './styles/main.scss';
 
-import Swiper from 'swiper';
+// import Swiper from 'swiper';
 
 // window.onload = function () {
 //
