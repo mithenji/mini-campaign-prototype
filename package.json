@@ -5,10 +5,10 @@
   "name": "mini_campaign_prototype",
   "description": "Build all kinds of web applications with the WeChat API",
   "scripts": {
-    "build-web": "webpack --mode production --name web",
+    "build-web": "webpack --mode production --name src",
     "build-admin": "webpack --mode production --name admin",
     "start-admin": "webpack --mode development --watch --name admin",
-    "start-web": "webpack --mode development --watch --name web"
+    "start-web": "webpack --mode development --watch --name src"
   },
   "campaigns": [
     "teamlab"
