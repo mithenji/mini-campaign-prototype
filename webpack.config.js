@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const webpack = require('webpack');
 const path = require('path');
-const glob = require('glob');
+// const glob = require('glob');
 const fs = require('fs');
 
 const pwd = fs.realpathSync(process.cwd()); //console.log('pwd =>', pwd);
@@ -32,7 +32,7 @@ function factory(options, entryNames) {
 
     const assets = [entryNames].reduce((acc, entry) => {
         // const name = entry.replace('apps', options.name);
-        const fromDir = resolveApp('web', entryNames, 'assets');  //console.log('name =>', name, 'assets =>', assets);
+        const fromDir = resolveApp('src', entryNames, 'assets');  //console.log('name =>', name, 'assets =>', assets);
         if (readSync(fromDir)) {
             isEnvDevelopment
                 ? acc.push({from: fromDir, to: resolveOutput('assets')})
@@ -200,7 +200,7 @@ function factory(options, entryNames) {
             new VueLoaderPlugin(),
             new HtmlWebpackPlugin({
                 filename: (entryName) => entryName + '.html',
-                template: `web/${entryNames}/index.html`,
+                template: `src/${entryNames}/index.html`,
                 publicPath: `./`,
                 title: entryNames
             }),
