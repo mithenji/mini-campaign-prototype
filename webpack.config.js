@@ -94,16 +94,41 @@ function factory(options, entryNames) {
         },
         output: {
             publicPath: '/',
-            filename: `javascript/${entryNames}.js`,
+            filename: `javascript/[name].js`,
             path: resolveOutput()
         },
         optimization: {
             minimize: isEnvProduction,
-            minimizer: []
+            chunkIds: 'named',
+            splitChunks: {
+                chunks: 'all',// 指明要分割的插件类型, async:异步插件(动态导入),inital:同步插件,all：全部类型
+                minSize: 20000,// 文件最小大小,单位bite;即超过minSize有可能被分割；
+                minRemainingSize: 0,// webpack5新属性，防止0尺寸的chunk
+                maxSize: 0,
+                minChunks: 1,
+                maxAsyncRequests: 30,// webpack4,5区别较大
+                maxInitialRequests: 30,// webpack4,5区别较大
+                enforceSizeThreshold: 50000,
+                cacheGroups: {
+                    default: {
+                        idHint: '',
+                        reuseExistingChunk: true,
+                        minChunks: 2,
+                        priority: -20
+                    },
+                    defaultVendors: {
+                        idHint: 'vendors',
+                        filename: `javascript/[name].bundle.js`,
+                        reuseExistingChunk: true,
+                        test: /[\\/]node_modules[\\/]/i,
+                        priority: -10
+                    }
+                }
+            }
         },
         performance: {
-            maxAssetSize: 3500000,
-            maxEntrypointSize: 2500000
+            maxAssetSize: 3000000,
+            maxEntrypointSize: 2000000
         },
         devServer: {
             hot: true,
@@ -204,7 +229,7 @@ function factory(options, entryNames) {
                 publicPath: `./`,
                 title: entryNames
             }),
-            new MiniCssExtractPlugin({filename: `styles/${entryNames}.css`, runtime: false}),
+            new MiniCssExtractPlugin({filename: `styles/[name].css`, runtime: false}),
             new CopyWebpackPlugin({patterns: [...assets, ...statics]}),
             new webpack.ProvidePlugin({process: 'process/browser'})
         ],
