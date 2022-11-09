@@ -1,0 +1,54 @@
+html, body {
+    position: relative;
+    width:    100%;
+    height:   100%;
+    padding:  0;
+    margin:   0;
+}
+
+canvas {
+    position: fixed;
+    top:      0;
+    left:     0;
+}
+
+.content-main {
+    position:        absolute;
+    width:           100%;
+    height:          100%;
+    display:         flex;
+    flex-direction:  column;
+    justify-content: center;
+    align-items:     center;
+}
+
+.title-text {
+    font-size:   12px;
+    font-weight: 400;
+    color:       #333333;
+}
+
+.subtitle-text {
+    font-size:   8px;
+    font-weight: 400;
+    color:       rgba(51, 51, 51, 0.8);
+}
+
+.copyright-text {
+    font-size:       5px;
+    font-weight:     400;
+    color:           rgba(51, 51, 51, 0.65);
+
+    position:        absolute;
+    bottom:          15px;
+    width:           100%;
+    height:          10px;
+    display:         flex;
+    flex-direction:  column;
+    justify-content: center;
+    align-items:     center;
+
+    a {
+        color: rgb(85, 26, 139);
+    }
+}
