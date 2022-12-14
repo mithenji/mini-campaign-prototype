@@ -20,10 +20,9 @@ const paths = require('./paths');
 const modules = require('./modules');
 const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
-const ForkTsCheckerWebpackPlugin =
-    process.env.TSC_COMPILE_ON_ERROR === 'true'
-        ? require('react-dev-utils/ForkTsCheckerWarningWebpackPlugin')
-        : require('react-dev-utils/ForkTsCheckerWebpackPlugin');
+const ForkTsCheckerWebpackPlugin = process.env.TSC_COMPILE_ON_ERROR === 'true'
+    ? require('react-dev-utils/ForkTsCheckerWarningWebpackPlugin')
+    : require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const webpackPluginToCreateHtml = require('./webpackPluginToCreateHtml');
@@ -34,17 +33,10 @@ const createEnvironmentHash = require('./webpack/persistentCache/createEnvironme
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 
 const reactRefreshRuntimeEntry = require.resolve('react-refresh/runtime');
-const reactRefreshWebpackPluginRuntimeEntry = require.resolve(
-    '@pmmmwh/react-refresh-webpack-plugin'
-);
+const reactRefreshWebpackPluginRuntimeEntry = require.resolve('@pmmmwh/react-refresh-webpack-plugin');
 const babelRuntimeEntry = require.resolve('babel-preset-react-app');
-const babelRuntimeEntryHelpers = require.resolve(
-    '@babel/runtime/helpers/esm/assertThisInitialized',
-    { paths: [babelRuntimeEntry] }
-);
-const babelRuntimeRegenerator = require.resolve('@babel/runtime/regenerator', {
-    paths: [babelRuntimeEntry]
-});
+const babelRuntimeEntryHelpers = require.resolve('@babel/runtime/helpers/esm/assertThisInitialized', { paths: [babelRuntimeEntry] });
+const babelRuntimeRegenerator = require.resolve('@babel/runtime/regenerator', { paths: [babelRuntimeEntry] });
 
 // Some apps do not need the benefits of saving a web request, so not inlining the chunk
 // makes for a smoother build process.
@@ -53,17 +45,13 @@ const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== 'false';
 const emitErrorsAsWarnings = process.env.ESLINT_NO_DEV_ERRORS === 'true';
 const disableESLintPlugin = process.env.DISABLE_ESLINT_PLUGIN === 'true';
 
-const imageInlineSizeLimit = parseInt(
-    process.env.IMAGE_INLINE_SIZE_LIMIT || '10000'
-);
+const imageInlineSizeLimit = parseInt(process.env.IMAGE_INLINE_SIZE_LIMIT || '10000');
 
 // Check if TypeScript is set up
 const useTypeScript = fs.existsSync(paths.appTsConfig);
 
 // Check if Tailwind config exists
-const useTailwind = fs.existsSync(
-    path.join(paths.appPath, 'tailwind.config.js')
-);
+const useTailwind = fs.existsSync(path.join(paths.appPath, 'tailwind.config.js'));
 
 // Get the path to the uncompleted service worker (if it exists).
 const swSrc = paths.swSrc;
@@ -371,12 +359,12 @@ module.exports = function (webpackEnv) {
                         // A missing `test` is equivalent to a match.
                         {
                             test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
-                            type: 'asset',
-                            parser: {
-                                dataUrlCondition: {
-                                    maxSize: imageInlineSizeLimit
-                                }
-                            }
+                            type: 'asset/resource'
+                            // parser: {
+                            //     dataUrlCondition: {
+                            //         maxSize: imageInlineSizeLimit
+                            //     }
+                            // }
                         },
                         {
                             test: /\.svg$/,
