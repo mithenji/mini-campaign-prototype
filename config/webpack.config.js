@@ -40,7 +40,7 @@ const babelRuntimeRegenerator = require.resolve('@babel/runtime/regenerator', { 
 
 // Some apps do not need the benefits of saving a web request, so not inlining the chunk
 // makes for a smoother build process.
-const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== 'false';
+const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK === 'true';
 
 const emitErrorsAsWarnings = process.env.ESLINT_NO_DEV_ERRORS === 'true';
 const disableESLintPlugin = process.env.DISABLE_ESLINT_PLUGIN === 'true';
@@ -121,7 +121,7 @@ module.exports = function (webpackEnv) {
                         // Necessary for external CSS imports to work
                         // https://github.com/facebook/create-react-app/issues/2677
                         ident: 'postcss',
-                        config: false,
+                        config: true,
                         plugins: !useTailwind
                             ? [
                                 'postcss-flexbugs-fixes',
@@ -203,9 +203,9 @@ module.exports = function (webpackEnv) {
                 ? 'static/javascript/[name].[contenthash:8].js'
                 : isEnvDevelopment && 'static/javascript/[name].js',
             // There are also additional JS chunk files if you use code splitting.
-            chunkFilename: isEnvProduction
-                ? 'static/javascript/[name].[contenthash:8].chunk.js'
-                : isEnvDevelopment && 'static/javascript/[name].chunk.js',
+            // chunkFilename: isEnvProduction
+            //     ? 'static/javascript/[name].[contenthash:8].chunk.js'
+            //     : isEnvDevelopment && 'static/javascript/[name].chunk.js',
             assetModuleFilename: 'static/media/[name].[hash][ext]',
             // webpack uses `publicPath` to determine where the app is being served from.
             // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -550,7 +550,11 @@ module.exports = function (webpackEnv) {
                         // ** STOP ** Are you adding a new loader?
                         // Make sure to add the new loader(s) before the "file" loader.
                     ]
-                }
+                },
+                {
+                    test: /\.html$/i,
+                    loader: "html-loader",
+                },
             ].filter(Boolean)
         },
         plugins: [
@@ -618,7 +622,7 @@ module.exports = function (webpackEnv) {
                 // Options similar to the same options in webpackOptions.output
                 // both options are optional
                 filename: 'static/css/[name].[contenthash:8].css',
-                chunkFilename: 'static/css/[name].[contenthash:8].chunk.css'
+                // chunkFilename: 'static/css/[name].[contenthash:8].chunk.css'
             }),
             // Generate an asset manifest file with the following content:
             // - "files" key: Mapping of all asset filenames to their corresponding
@@ -630,20 +634,17 @@ module.exports = function (webpackEnv) {
                 fileName: 'asset-manifest.json',
                 publicPath: paths.publicUrlOrPath,
                 generate: (seed, files, entrypoints) => {
+
+                    // console.log('WebpackManifestPlugin =>', '\nseed =>', seed, '\nfiles =>', files, '\nentrypoints =>', entrypoints)
                     const manifestFiles = files.reduce((manifest, file) => {
                         manifest[file.name] = file.path;
                         return manifest;
                     }, seed);
 
-                    // const entrypointFiles = entrypoints.mian.filter(
-                    //     fileName => !fileName.endsWith('.map')
-                    // );
-
-                    const entrypointFiles = {};
-                    Object.keys(entrypoints).reduce((previousValue, currentValue) => {
+                    const entrypointFiles = Object.keys(entrypoints).reduce((previousValue, currentValue) => {
                         previousValue[currentValue] = entrypoints[currentValue].filter(fileName => !fileName.endsWith('.map'))[0];
                         return previousValue;
-                    }, entrypointFiles);
+                    }, {});
 
                     // console.log('WebpackManifestPlugin', manifestFiles, entrypointFiles);
 

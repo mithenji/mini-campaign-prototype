@@ -1,0 +1,665 @@
+/*=========================================================
+                   campaign container
+==========================================================*/
+
+@font-face {
+    font-family: 'SourceHanSerifCN-Bold';
+    src:         url("../fonts/SourceHanSerifCN-Bold.otf") format('woff');
+}
+
+html, body {
+    padding:          0;
+    margin:           0;
+    background-color: #FC4F3A;
+}
+
+img {
+    width:          100%;
+    display:        inline-block;
+    vertical-align: middle;
+}
+
+body.campaign {
+    position:         absolute;
+    width:            100%;
+    height:           100%;
+    overflow:         hidden;
+    display:          flex;
+    flex-direction:   column;
+    justify-content:  center;
+    align-items:      center;
+    background-image: radial-gradient(circle at 50% 77%, #F3403F 0%, #841115 80%);
+}
+
+.auditInformationContainer {
+    position:        relative;
+    width:           100%;
+    height:          100%;
+    overflow:        hidden;
+    display:         flex;
+    flex-direction:  column;
+    justify-content: flex-start;
+    align-items:     center;
+}
+
+/*=========================================================
+                  AdministratorInfo
+==========================================================*/
+.administratorInfo {
+    width:           100%;
+    display:         flex;
+    flex-direction:  row;
+    justify-content: space-between;
+    align-items:     center;
+
+    padding:         0 60px;
+    margin:          24px 0;
+    box-sizing:      border-box;
+
+    .emptyPlaceholder {
+        width:  72px;
+        height: 72px;
+    }
+
+    .administratorAvatar {
+        display:         inline-flex;
+        flex-direction:  row;
+        justify-content: center;
+        align-items:     center;
+
+        .userName {
+            margin-right:   16px;
+            font-family:    PingFangSC-Regular, sans-serif;
+            font-size:      32px;
+            color:          #FFFFFF;
+            letter-spacing: 0;
+            text-align:     center;
+            font-weight:    400;
+        }
+
+        .imageAvatar {
+            width:               72px;
+            height:              72px;
+            border-radius:       50%;
+            background-repeat:   no-repeat;
+            background-color:    transparent;
+            background-position: center;
+            background-size:     cover;
+        }
+    }
+}
+
+/*=========================================================
+                  ContainerFormCongratulations
+==========================================================*/
+
+.congratulationsFormContainer {
+    width:           100%;
+    display:         flex;
+    flex-direction:  column;
+    justify-content: flex-start;
+    align-items:     center;
+    margin-bottom:   60px;
+
+    .textTitle {
+        width:          100%;
+        margin-bottom:  40px;
+        font-family:    PingFangSC-Semibold, sans-serif;
+        font-size:      60px;
+        color:          #FFD897;
+        letter-spacing: 0;
+        text-align:     center;
+        font-weight:    600;
+    }
+
+    .sectionFormContainer {
+        width:           100%;
+        display:         flex;
+        flex-direction:  column;
+        justify-content: flex-start;
+        align-items:     center;
+    }
+
+    .itemCongratulationsInput {
+        border:           0.5px solid rgba(193, 193, 193, 1);
+        border-radius:    4px;
+        background-color: #FFFFFF;
+        outline:          none;
+        padding:          22px 32px;
+        margin-bottom:    24px;
+        transition:       all .2s ease-in-out;
+        box-sizing:       border-box;
+
+        &.typeInput {
+            width:  560px;
+            height: 88px;
+        }
+
+        &.typeTextarea {
+            width:  560px;
+            height: 212px;
+            resize: none;
+        }
+
+        &.typeSignature {
+            width:         560px;
+            height:        88px;
+            margin-bottom: 48px
+        }
+
+        ::placeholder {
+            color: #CECECE;
+        }
+
+        font-family:      PingFangSC-Regular, sans-serif;
+        font-size:        32px;
+        color:            #CECECE;
+        letter-spacing:   0;
+        font-weight:      400;
+
+        caret-color:      #FFD897;
+
+        &:hover,
+        &:focus {
+            outline:                     0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        &::selection {
+            border:     0;
+            background: transparent;
+        }
+
+        &::placeholder {
+            color: rgba(102, 102, 102, 0.5);
+
+        }
+    }
+
+    .sectionCongratulationsTips {
+        width:          560px;
+        font-family:    PingFangSC-Regular, sans-serif;
+        font-size:      24px;
+        color:          #FFFFFF;
+        letter-spacing: 0;
+        text-align:     center;
+        font-weight:    400;
+
+        margin-bottom:  24px;
+    }
+
+    .congratulationsSubmitButton {
+        width:                 506px;
+        height:                88px;
+
+        font-family:           PingFangSC-Semibold, sans-serif;
+        font-size:             36px;
+        color:                 #FFFFFF;
+        letter-spacing:        0;
+        text-align:            center;
+        font-weight:           600;
+
+        outline:               none;
+        border:                none;
+        display:               block;
+
+        background-color:      #CDAC74;
+        border-radius:         44px;
+
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select:   none; /* Safari */
+        user-select:           none; /* Non-prefixed version, currently*/
+
+        &:focus,
+        &:hover {
+            -webkit-tap-highlight-color: transparent;
+            outline:                     none;
+            border:                      none;
+        }
+    }
+
+    .congratulationsSubmitButton {
+
+        &:focus,
+        &:hover {
+            -webkit-tap-highlight-color: transparent;
+            outline:                     none;
+            border:                      none;
+        }
+
+        &.hoverClass {
+            opacity:             .85;
+            transform:           translateY(2px* 2);
+            transition-duration: .5s;
+        }
+    }
+}
+
+/*=========================================================
+                  ContainerECardList
+==========================================================*/
+
+.eCardListContainer {
+    width:           100%;
+    display:         flex;
+    flex-direction:  column;
+    justify-content: flex-start;
+    align-items:     center;
+    padding-bottom:  env(safe-area-inset-bottom, 50px); /* 兼容 iOS >= 11.2 */
+    box-sizing:      border-box;
+
+    .decorationBar {
+        width:               100%;
+        height:              32px;
+        background-repeat:   no-repeat;
+        background-position: center;
+        background-size:     cover;
+        background-image:    url("../images/decorationBar.png");
+    }
+
+    .textTitle {
+        font-family:    PingFangSC-Medium, sans-serif;
+        font-size:      32px;
+        color:          #FFD897;
+        letter-spacing: 0;
+        font-weight:    500;
+    }
+
+    .itemListContainer {
+        box-sizing: border-box;
+        overflow-y: scroll;
+
+    }
+
+    .itemECardContainer {
+        width:           calc(100% - 120px);
+        height:          108px;
+
+        display:         flex;
+        flex-direction:  row;
+        justify-content: space-between;
+        align-items:     center;
+
+        margin:          0 auto;
+
+        border-bottom:   0.5px solid rgba(222, 222, 222, 0.50);
+        box-sizing:      border-box;
+
+        .itemECardTimestamp {
+            font-family:    PingFangSC-Regular, sans-serif;
+            font-size:      32px;
+            color:          #FFFFFF;
+            letter-spacing: 0;
+            font-weight:    400;
+        }
+
+        .itemRightIcon {
+            width:               32px;
+            height:              32px;
+            background-repeat:   no-repeat;
+            background-position: center;
+            background-size:     contain;
+        }
+    }
+}
+
+/*=========================================================
+                  CongratulationsText
+==========================================================*/
+.congratulationsTextContainer {
+
+    width:           auto;
+    min-height:      380px;
+    position:        absolute;
+    top:             388px;
+
+    display:         flex;
+    flex-direction:  column;
+    justify-content: flex-start;
+    align-items:     flex-start;
+
+    padding:         0 50px;
+    box-sizing:      border-box;
+
+    .congratulationsTitle {
+        width:           100%;
+        height:          50px;
+        margin-bottom:   20px;
+
+        display:         flex;
+        flex-direction:  row;
+        justify-content: flex-start;
+        align-items:     center;
+
+        font-family:     'SourceHanSerifCN-Bold', sans-serif;
+        font-size:       4.8vw;
+        color:           #FFFFFF;
+        letter-spacing:  0.5px;
+        font-weight:     700;
+
+        .character {
+            width:  39px;
+            height: 56px;
+        }
+
+    }
+
+    .congratulationsMsgContainer {
+        width:           100%;
+        height:          auto;
+        margin-bottom:   36px;
+
+        display:         flex;
+        flex-direction:  column;
+        justify-content: center;
+        align-items:     flex-start;
+
+        font-family:     'SourceHanSerifCN-Bold', sans-serif;
+        font-size:       64px;
+        color:           #FFFFFF;
+        letter-spacing:  2.67px;
+        text-align:      center;
+        line-height:     100px;
+        text-shadow:     0 2px 5px #BF7100;
+        font-weight:     700;
+
+        .character {
+            width:  70px;
+            height: 100px;
+        }
+    }
+
+    .congratulationsSignature {
+        width:           100%;
+        height:          52px;
+
+        display:         flex;
+        flex-direction:  row;
+        justify-content: flex-end;
+        align-items:     center;
+
+        font-family:     'SourceHanSerifCN-Bold', sans-serif;
+        font-size:       4.8vw;
+        color:           #FFFFFF;
+        letter-spacing:  0.56px;
+        text-align:      center;
+        font-weight:     700;
+
+        .character {
+            width:  39px;
+            height: 56px;
+        }
+    }
+
+}
+
+
+/*=========================================================
+                  PlaygroundContainer
+==========================================================*/
+
+.playgroundContainer {
+    position:        relative;
+    width:           100%;
+    height:          100%;
+    overflow:        hidden;
+    display:         flex;
+    flex-direction:  column;
+    justify-content: flex-start;
+    align-items:     center;
+
+    .sectionPlaygroundCanvas {
+        position:    absolute;
+        top:         0;
+        left:        0;
+        right:       0;
+        bottom:      0;
+        width:       100%;
+        height:      100%;
+        user-select: none;
+    }
+
+    .sectionCongratulationsMsg {
+        z-index:  1;
+        position: absolute;
+        width:    100%;
+        height:   100%;
+    }
+}
+
+
+.resetAndSaveContainer {
+    z-index:          99;
+    position:         absolute;
+    bottom:           0;
+
+    display:          flex;
+    flex-direction:   row;
+    justify-content:  center;
+    align-items:      center;
+
+    width:            100%;
+    height:           200px;
+    padding-top:      32px;
+    padding-bottom:   env(safe-area-inset-bottom, 50px); /* 兼容 iOS >= 11.2 */
+    background-color: rgba(255, 255, 255, 0.80);
+    box-sizing:       border-box;
+
+
+    .resetPlaygroundButton {
+        position:              absolute;
+        left:                  32px;
+        width:                 88px;
+        height:                88px;
+        display:               inline-flex;
+        flex-direction:        column;
+        justify-content:       center;
+        align-items:           center;
+
+
+        outline:               none;
+        border:                none;
+
+        background-color:      transparent;
+
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select:   none; /* Safari */
+        user-select:           none; /* Non-prefixed version, currently*/
+
+        &:focus,
+        &:hover {
+            -webkit-tap-highlight-color: transparent;
+            outline:                     none;
+            border:                      none;
+        }
+
+        &:focus,
+        &:hover {
+            -webkit-tap-highlight-color: transparent;
+            outline:                     none;
+            border:                      none;
+        }
+
+        .sectionResetIcon {
+            display:             inline-flex;
+            width:               72px;
+            height:              56px;
+            background-repeat:   no-repeat;
+            background-color:    transparent;
+            background-position: center;
+            background-size:     contain;
+
+        }
+
+        .sectionResetText {
+            display:        inline-flex;
+            font-family:    PingFangSC-Semibold, sans-serif;
+            font-size:      28px;
+            color:          #CDAC74;
+            letter-spacing: 0;
+            text-align:     center;
+            font-weight:    500;
+        }
+    }
+}
+
+.savePlaygroundButton {
+
+    display:               inline-flex;
+    flex-direction:        column;
+    justify-content:       center;
+    align-items:           center;
+
+    font-family:           PingFangSC-Semibold, sans-serif;
+    font-size:             36px;
+    color:                 #FFFFFF;
+    letter-spacing:        0;
+    text-align:            center;
+    font-weight:           500;
+
+
+    width:                 506px;
+    height:                88px;
+
+    outline:               none;
+    border:                none;
+
+    background-color:      #CDAC74;
+    border-radius:         44px;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select:   none; /* Safari */
+    user-select:           none; /* Non-prefixed version, currently*/
+
+    &:focus,
+    &:hover {
+        -webkit-tap-highlight-color: transparent;
+        outline:                     none;
+        border:                      none;
+    }
+
+    &:focus,
+    &:hover {
+        -webkit-tap-highlight-color: transparent;
+        outline:                     none;
+        border:                      none;
+    }
+
+    &.hoverClass {
+        opacity:             .85;
+        transform:           translateY(3px);
+        transition-duration: .5s;
+    }
+}
+
+.replayPlaygroundContainer {
+    z-index:         99;
+    position:        absolute;
+    bottom:          calc(env(safe-area-inset-bottom, 50px) + 15.66667vw);
+    width:           100%;
+    height:          100px;
+
+    display:         flex;
+    flex-direction:  row;
+    justify-content: center;
+    align-items:     center;
+}
+
+.replayPlaygroundButton {
+    display:               flex;
+    flex-direction:        column;
+    justify-content:       center;
+    align-items:           center;
+
+    font-family:           PingFangSC-Semibold, sans-serif;
+    font-size:             36px;
+    color:                 #FFFFFF;
+    letter-spacing:        0;
+    text-align:            center;
+    font-weight:           500;
+
+
+    width:                 312px;
+    height:                96px;
+
+    outline:               none;
+    border:                none;
+
+    background-repeat:     no-repeat;
+    background-color:      transparent;
+    background-position:   center;
+    background-size:       cover;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select:   none; /* Safari */
+    user-select:           none; /* Non-prefixed version, currently*/
+
+    &:focus,
+    &:hover {
+        -webkit-tap-highlight-color: transparent;
+        outline:                     none;
+        border:                      none;
+    }
+
+    &:focus,
+    &:hover {
+        -webkit-tap-highlight-color: transparent;
+        outline:                     none;
+        border:                      none;
+    }
+
+    &.hoverClass {
+        opacity:             .85;
+        transform:           translateY(3px);
+        transition-duration: .5s;
+    }
+}
+
+
+.musicControlButton {
+    z-index:               99;
+    position:              absolute;
+
+    top:                   30px;
+    right:                 30px;
+
+
+    display:               inline-flex;
+    flex-direction:        column;
+    justify-content:       center;
+    align-items:           center;
+
+    width:                 56px;
+    height:                56px;
+
+    outline:               none;
+    border:                none;
+
+    background-repeat:     no-repeat;
+    background-color:      transparent;
+    background-position:   center;
+    background-size:       cover;
+
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select:   none; /* Safari */
+    user-select:           none; /* Non-prefixed version, currently*/
+
+    &:focus,
+    &:hover {
+        -webkit-tap-highlight-color: transparent;
+        outline:                     none;
+        border:                      none;
+    }
+
+    &:focus,
+    &:hover {
+        -webkit-tap-highlight-color: transparent;
+        outline:                     none;
+        border:                      none;
+    }
+
+    &.activeClass {
+        opacity:             .65;
+        transition-duration: .5s;
+    }
+}
