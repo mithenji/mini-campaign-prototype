@@ -6,6 +6,9 @@ const entryNamesObj = paths.entryNames;
 module.exports = function (webpackEnv) {
     const isEnvProduction = webpackEnv === 'production';
     return Object.keys(entryNamesObj).map(entry => {
+
+        console.log('HtmlWebpackPlugin =>', entry);
+
         return new HtmlWebpackPlugin(
             Object.assign(
                 {},

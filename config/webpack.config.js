@@ -137,7 +137,25 @@ module.exports = function (webpackEnv) {
                                 // Adds PostCSS Normalize as the reset css with default options,
                                 // so that it honors browserslist config in package.json
                                 // which in turn let's users customize the target behavior as per their needs.
-                                'postcss-normalize'
+                                'postcss-normalize',
+                                [
+                                    'postcss-px-to-viewport-8-plugin',
+                                    {
+                                        unitToConvert: 'px',
+                                        viewportWidth: 1440,
+                                        unitPrecision: 5,
+                                        propList: ['*'],
+                                        viewportUnit: 'vw',
+                                        fontViewportUnit: 'vw',
+                                        selectorBlackList: [],
+                                        minPixelValue: 1,
+                                        mediaQuery: false,
+                                        replace: true,
+                                        exclude: [],
+                                        landscape: false,
+                                        landscapeUnit: 'vw'
+                                    }
+                                ]
                             ]
                             : [
                                 'tailwindcss',
@@ -553,8 +571,8 @@ module.exports = function (webpackEnv) {
                 },
                 {
                     test: /\.html$/i,
-                    loader: "html-loader",
-                },
+                    loader: 'html-loader'
+                }
             ].filter(Boolean)
         },
         plugins: [
@@ -621,7 +639,7 @@ module.exports = function (webpackEnv) {
             new MiniCssExtractPlugin({
                 // Options similar to the same options in webpackOptions.output
                 // both options are optional
-                filename: 'static/css/[name].[contenthash:8].css',
+                filename: 'static/css/[name].[contenthash:8].css'
                 // chunkFilename: 'static/css/[name].[contenthash:8].chunk.css'
             }),
             // Generate an asset manifest file with the following content:
